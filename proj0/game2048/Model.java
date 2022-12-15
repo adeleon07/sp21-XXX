@@ -138,6 +138,13 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for (int col = 0; col <= b.size() -1; col ++) { // can probably refactor this by writing a helper function
+            for (int row = 0; row <= b.size() -1; row ++) {
+                if (b.tile(col, row) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +155,15 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for (int col = 0; col <= b.size() -1; col ++) { // can probably refactor this by writing a helper function
+            for (int row = 0; row <= b.size() - 1; row++) {
+                if (b.tile(col, row) != null) {
+                    if (b.tile(col, row).value() == MAX_PIECE){
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -159,9 +175,51 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        // check there is at least one empty space return true
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+        // check adjacent tile is value() == value()
+        for (int col = 0; col <= b.size() - 1; col ++) { // can probably refactor this by writing a helper function
+            for (int row = 0; row <= b.size() - 1; row++) {
+                if (b.tile(col, row) != null) {
+                    if (adjacentEqualValue(b, col, row)) {
+                        return true;
+                    }
+
+                }
+            }
+        }
         return false;
     }
 
+    public static boolean adjacentEqualValue (Board b, int col, int row) {
+        //check left
+        if (col - 1 >= 0) { //checks out of bounds
+            if (b.tile(col, row).value() == b.tile(col-1, row).value()) {
+                return true;
+            }
+        }
+        //check right
+        if (col + 1 < b.size()) { //check out of bounds
+            if (b.tile(col, row).value() == b.tile(col+1, row).value()) {
+                return true;
+            }
+        }
+        //check up
+        if (row - 1 >= 0) { //check out of bounds
+            if (b.tile(col, row).value() == b.tile(col, row - 1).value()) {
+                return true;
+            }
+        }
+        //check down
+        if (row + 1 < b.size()) { //check out of bounds
+            if (b.tile(col, row).value() == b.tile(col, row+1).value()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
      /** Returns the model as a string, used for debugging. */
