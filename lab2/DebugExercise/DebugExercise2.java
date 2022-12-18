@@ -16,6 +16,12 @@ public class DebugExercise2 {
         return max;
     }
 
+    public static int newmax(int a, int b) {
+        if (a > b) {
+            return a;
+        }
+        return b;
+    }
 
     /** Returns the sum of a and b. Do not step into this function. */
     public static int add(int a, int b) {
@@ -46,7 +52,7 @@ public class DebugExercise2 {
         }
         int[] returnArray = new int[a.length];
         for (int i = 0; i < a.length; i += 1) {
-            int biggerValue = max(a[i], b[i]);
+            int biggerValue = newmax(a[i], b[i]);
             returnArray[i] = biggerValue;
         }
 
@@ -58,7 +64,8 @@ public class DebugExercise2 {
         int i = 0;
         int sum = 0;
         while (i < x.length) {
-            sum = sum + add(sum, x[i]);
+            //sum = sum + add(sum, x[i]); replaced with code below
+            sum = sum + x[i];
             i = i + 1;
         }
         return sum;
