@@ -116,35 +116,40 @@ public class Model extends Observable {
 
         //maybe set the direction of the board first based on the input: do last
         for (int col = board.size() - 1; col >= 0; col--) {
-            for (int row = board.size() - 2; row >= 0 ; row--) {
+            for (int row = board.size() - 1; row >= 0 ; row--) {
                 Tile t = board.tile(col, row);
                 // **could probably make this entire if statement a method**
                 if (t != null) {
                     // check if the space above is null / see how many spaces above are null
-                    int i = 1;
-                    while (((row + i) < board.size() - 1) && (freeSpace(t, col, row + i))) {
-                        i++;
+                    if ((row + 1) <= (board.size() - 1)) {
+                        if ((freeSpace(t, col, row + 1)) || (t.value() == board.tile(col, row + 1).value())) {
+                            int i = 1;
+                            while (((row + i) < board.size() - 1) && (freeSpace(t, col, row + i))) {
+                                i++;
+                            }
+                            if ((board.tile(col, row + i) != null) && (t.value() == board.tile(col, row + i).value())) { //check for merge case
+                                board.move(col, row + i, t);
+                                score += t.value() * 2;
+                            } else if (board.tile(col, row + i) != null) { //checks if the final tile is free, if not move -1
+                                i--;
+                                board.move(col, row + i, t);
+                            } else {
+                                board.move(col, row + i, t);
+
+                            }
+                            changed = true;
+                        }
                     }
-                    if ((board.tile(col, row + i) != null) && (t.value() == board.tile(col, row + i).value())) { //check for merge case
-                        board.move(col, row + i, t);
-                    }else if (board.tile(col, row + i) != null) { //checks if the final tile is free, if not move -1
-                        i--;
-                        board.move(col, row + i, t);
-                    }else{
-                        board.move(col, row + i, t);
-                    }
-                    changed = true;
                 }
             }
         }
-
-
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
     }
+
     // Returns true if tile above the current tile being checked is a free space.
     public boolean freeSpace(Tile t, int col, int row) {
         if (board.tile(col, row) == null) {
