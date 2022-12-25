@@ -109,53 +109,57 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
         // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
+        //Version #2 of the code
+        // Changes board to desired perspective
+        if (side != side.NORTH) {
+            changed = true;
+            board.setViewingPerspective(side);
+        }
 
-        //maybe set the direction of the board first based on the input: do last
+        //iterate through all tiles on the board
         for (int col = board.size() - 1; col >= 0; col--) {
-            for (int row = board.size() - 1; row >= 0 ; row--) {
-                Tile t = board.tile(col, row);
-                // **could probably make this entire if statement a method**
-                if (t != null) {
-                    // check if the space above is null / see how many spaces above are null
-                    if ((row + 1) <= (board.size() - 1)) {
-                        if ((freeSpace(t, col, row + 1)) || (t.value() == board.tile(col, row + 1).value())) {
-                            int i = 1;
-                            while (((row + i) < board.size() - 1) && (freeSpace(t, col, row + i))) {
-                                i++;
-                            }
-                            if ((board.tile(col, row + i) != null) && (t.value() == board.tile(col, row + i).value())) { //check for merge case
-                                board.move(col, row + i, t);
-                                score += t.value() * 2;
-                            } else if (board.tile(col, row + i) != null) { //checks if the final tile is free, if not move -1
-                                i--;
-                                board.move(col, row + i, t);
-                            } else {
-                                board.move(col, row + i, t);
+            for (int row = board.size() - 1; row >= 0; row--) {
+                Tile t1 = board.tile(col, row);
+                if (t1 != null)  {
+                    // look for spaces to move forward
+                    for (int i = 1; (row + i) < board.size(); i++) {
+                        if (board.tile(col, row + i) == null) {
+                            board.move(col, row + i, t1);
+                            t1 = board.tile(col, row + i);
+                            changed = true;
+                        }else{
+                            break;
+                        }
+                    }
+                    if ((row - 1) >= 0) { //looks for merges behind
+                        int j = 1;
+                        Tile t2 = board.tile(col, row - j);
+                        while ((t2 == null) && ((row - j) != 0)) {
+                            j++;
+                            t2 = board.tile(col, row - j);
+                        }
+                        if (t2 != null){
+                            if (t1.value() == t2.value()) {
+                                board.setViewingPerspective(Side.NORTH);
+                                board.move(t1.col(), t1.row(), t2);
+                                t1 = board.tile(t1.col(), t1.row());
+                                board.setViewingPerspective(side);
+                                score += t2.value() * 2;
+                                changed = true;
 
                             }
-                            changed = true;
                         }
                     }
                 }
             }
         }
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
-    }
-
-    // Returns true if tile above the current tile being checked is a free space.
-    public boolean freeSpace(Tile t, int col, int row) {
-        if (board.tile(col, row) == null) {
-            return true;
-        }
-        return false;
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -259,7 +263,7 @@ public class Model extends Observable {
     }
 
     @Override
-     /** Returns the model as a string, used for debugging. */
+    /** Returns the model as a string, used for debugging. */
     public String toString() {
         Formatter out = new Formatter();
         out.format("%n[%n");
