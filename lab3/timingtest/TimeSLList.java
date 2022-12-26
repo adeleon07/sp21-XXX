@@ -1,6 +1,6 @@
 package timingtest;
 import edu.princeton.cs.algs4.Stopwatch;
-import org.checkerframework.checker.units.qual.A;
+
 
 /**
  * Created by hug.
@@ -24,7 +24,7 @@ public class TimeSLList {
 
     public static void timeGetLast() {
         int N = 1000;
-        int Limit = 128000;
+        int Limit = 50000;
         int M = 10000;
 
 
