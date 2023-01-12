@@ -1,7 +1,5 @@
 package deque;
 
-import java.util.LinkedList;
-
 public class LinkedListDeque<T> {
     private class Node {
         public Node prev;
@@ -40,7 +38,7 @@ public class LinkedListDeque<T> {
     }
 
     public boolean isEmpty() {
-            return (size == 0);
+        return (size == 0);
     }
 
     public void printDeque() {
@@ -53,22 +51,24 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (sentinel.next == null) {
+        if (sentinel.next == sentinel) {
             return null;
         } else {
             sentinel.next = sentinel.next.next;
             T first = sentinel.next.prev.item;
             sentinel.next.prev = sentinel;
+            size -= 1;
             return first;
         }
     }
     public T removeLast() {
-        if (sentinel.prev == null) {
+        if (sentinel.prev == sentinel) {
             return null;
         } else {
             sentinel.prev = sentinel.prev.prev;
             T last = sentinel.prev.next.item;
             sentinel.prev.next = sentinel;
+            size -= 1;
             return last;
         }
     }
