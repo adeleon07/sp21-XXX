@@ -10,8 +10,8 @@ public class ArrayDeque<T> {
 
     public ArrayDeque() {
         items = (T[]) new Object[8];
-        nextFirst = 4;
-        nextLast = 5;
+        nextFirst = 0;
+        nextLast = 1;
         size = 0;
     }
 
@@ -50,9 +50,12 @@ public class ArrayDeque<T> {
         return size;
     }
 
+    /*
     public void printDeque() {
-
-    }
+        for (T i : this) {
+            System.out.print(i + " ");
+        }
+   */
 
     public T removeFirst() {
         if (isEmpty()) {
@@ -87,8 +90,6 @@ public class ArrayDeque<T> {
     }
 
 
-
-
     /* Resizes the underlying array to target capacity */
     private void resize(int capacity) {
         T[] a = (T []) new Object[capacity];
@@ -101,5 +102,14 @@ public class ArrayDeque<T> {
         T[] a = (T[]) new Object[items.length / factor];
         System.arraycopy(items, 0, a, 0, size);
         items = a;
+    }
+
+    public static void main(String[] args) {
+        int n = 6;
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        for (int i = 0; i <=n; i++) {
+            ad1.addFirst(i);
+        }
+        int get = ad1.get(0);
     }
 }
