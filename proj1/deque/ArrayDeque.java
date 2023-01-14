@@ -86,10 +86,16 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        return items[index];
+        return items[arrayInd(index)];
     }
 
-
+    private int arrayInd(int ind) {
+        if (nextFirst + 1 + ind >= items.length) {
+            return nextFirst + 1 + ind - items.length;
+        } else {
+            return nextFirst + 1 + ind;
+        }
+    }
     /* Resizes the underlying array to target capacity */
     private void resize(int capacity) {
         T[] a = (T []) new Object[capacity];
