@@ -3,7 +3,7 @@ package deque;
 import java.awt.datatransfer.SystemFlavorMap;
 
 public class ArrayDeque<T> {
-    private T [] items;
+    private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
@@ -61,7 +61,8 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T firstItem = items[nextFirst + 1];;
+        T firstItem = items[nextFirst + 1];
+        ;
         items[nextFirst + 1] = null;
 
         if ((size > 16) && (items.length * .25 > size)) {
@@ -75,8 +76,8 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T lastItem = items[nextLast-1];
-        items[nextLast-1] = null;
+        T lastItem = items[nextLast - 1];
+        items[nextLast - 1] = null;
         size -= 1;
 
         if ((size > 16) && (items.length * .25 > size)) {
@@ -96,11 +97,20 @@ public class ArrayDeque<T> {
             return nextFirst + 1 + ind;
         }
     }
+
     /* Resizes the underlying array to target capacity */
     private void resize(int capacity) {
-        T[] a = (T []) new Object[capacity];
-        System.arraycopy(items, 0, a, 0, size);
+        T[] a = (T[]) new Object[capacity];
+        //System.arraycopy(items, 0, a, 0, size);
+        //items = a;
+        int ind = 0;
+        for (int i = 0; i < size; i += 1) {
+            ind = arrayInd(i);
+            a[capacity / 4 + i] = items[ind];
+        }
         items = a;
+        nextFirst = capacity / 4 - 1;
+        nextLast = nextFirst + size + 1;
 
     }
 
@@ -108,14 +118,5 @@ public class ArrayDeque<T> {
         T[] a = (T[]) new Object[items.length / factor];
         System.arraycopy(items, 0, a, 0, size);
         items = a;
-    }
-
-    public static void main(String[] args) {
-        int n = 6;
-        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
-        for (int i = 0; i <=n; i++) {
-            ad1.addFirst(i);
-        }
-        int get = ad1.get(0);
     }
 }
