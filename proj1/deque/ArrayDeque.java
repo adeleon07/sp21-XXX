@@ -61,13 +61,15 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
-        T firstItem = items[nextFirst + 1];
-        ;
-        items[nextFirst + 1] = null;
+        T firstItem = items[arrayInd(0)];
+
+        items[arrayInd(0)] = null;
 
         if ((size > 16) && (items.length * .25 > size)) {
             reducesize(4);
         }
+        nextFirst += 1;
+        size -= 1;
         return firstItem;
     }
 
@@ -78,11 +80,13 @@ public class ArrayDeque<T> {
         }
         T lastItem = items[nextLast - 1];
         items[nextLast - 1] = null;
-        size -= 1;
 
         if ((size > 16) && (items.length * .25 > size)) {
             reducesize(4);
         }
+
+        nextLast -= 1;
+        size -= 1;
         return lastItem;
     }
 
