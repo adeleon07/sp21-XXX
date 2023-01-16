@@ -39,6 +39,7 @@ public class ArrayDequeTest {
         for (int i=0; i < 7; i++) {
             TestRLDeque.addLast(i);
         }
+        TestRLDeque.printDeque();
         assertEquals(7, (int)TestRLDeque.size());
         assertEquals(6, (int)TestRLDeque.removeLast());
         assertEquals(5, (int)TestRLDeque.removeLast());

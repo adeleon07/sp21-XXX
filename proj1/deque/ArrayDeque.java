@@ -50,12 +50,12 @@ public class ArrayDeque<T> {
         return size;
     }
 
-    /*
     public void printDeque() {
-        for (T i : this) {
-            System.out.print(i + " ");
+        for (int i = 0; i < size; i++) {
+            System.out.print(items[arrayInd(i)] + " ");
         }
-   */
+        System.out.println(" ");
+    }
 
     public T removeFirst() {
         if (isEmpty()) {
@@ -124,3 +124,4 @@ public class ArrayDeque<T> {
         items = a;
     }
 }
+
