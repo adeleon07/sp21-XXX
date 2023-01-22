@@ -1,8 +1,8 @@
 package deque;
 
 import java.awt.datatransfer.SystemFlavorMap;
-
-public class ArrayDeque<T> {
+import java.util.Iterator;
+public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] items;
     private int size;
     private int nextFirst;
@@ -122,6 +122,27 @@ public class ArrayDeque<T> {
         T[] a = (T[]) new Object[items.length / factor];
         System.arraycopy(items, 0, a, 0, size);
         items = a;
+    }
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
+
+    private class ArrayDequeIterator implements Iterator<T> {
+        private int wizPos;
+
+        private ArrayDequeIterator() {
+            wizPos = 0;
+        }
+        public boolean hasNext() {
+            return wizPos < size;
+        }
+
+        public T next() {
+            T item = get(wizPos);
+            wizPos += 1;
+            return item;
+        }
     }
 }
 

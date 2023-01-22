@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<T> {
+import java.util.Iterator;
+
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class Node {
         public Node prev;
         public T item;
@@ -97,16 +99,50 @@ public class LinkedListDeque<T> {
         }
         return pointer.item;
     }
-    /*
+
     public Iterator<T> iterator() {
-        //CODE
+        return new LinkedListDequeIterator();
+    }
+
+    private class LinkedListDequeIterator implements Iterator<T> {
+        private int wizPos;
+
+        private LinkedListDequeIterator() {
+            wizPos = 0;
+        }
+
+        public boolean hasNext() {
+            return wizPos < size;
+        }
+
+        public T next() {
+            T item = get(wizPos);
+            wizPos += 1;
+            return item;
+        }
     }
 
     public boolean equals(Object o) {
-        //CODE
+        if (!(o instanceof Deque)) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+
+        Deque<T> ol = (Deque<T>) o;
+        if (ol.size() != this.size()) {
+            return false;
+        }
+        for (int i = 0; i < this.size(); i++) {
+            if (ol.get(i) != this.get(i)) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
-     */
     public int size() {
         return size;
     }
