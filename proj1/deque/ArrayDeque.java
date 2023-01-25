@@ -14,7 +14,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         nextLast = 5;
         size = 0;
     }
-
+    @Override
     public void addFirst(T item) {
         if (size == items.length - 1) {
             resize(items.length * 2);
@@ -29,6 +29,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size += 1;
     }
 
+    @Override
     public void addLast(T item) {
         if (size == items.length - 1) {
             resize(items.length * 2);
@@ -42,14 +43,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size += 1;
     }
 
-    public boolean isEmpty() {
-        return (size == 0);
-    }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         for (int i = 0; i < size; i++) {
             System.out.print(items[arrayInd(i)] + " ");
@@ -57,6 +57,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         System.out.println(" ");
     }
 
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -73,7 +74,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return firstItem;
     }
 
-    //still need to determine circular usage
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -90,10 +91,32 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return lastItem;
     }
 
+    @Override
     public T get(int index) {
         return items[arrayInd(index)];
     }
 
+    public boolean equals(Object o) {
+        if (!(o instanceof ArrayDeque)) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        Deque<T> ol = (Deque<T>) o;
+        if ( ol.size() != this.size()) {
+            return false;
+        }
+        for (int i = 0; i < ol.size(); i++) {
+            if (ol.get(i) != this.get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
     private int arrayInd(int ind) {
         if (nextFirst + 1 + ind >= items.length) {
             return nextFirst + 1 + ind - items.length;
