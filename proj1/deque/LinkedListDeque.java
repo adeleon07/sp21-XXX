@@ -81,8 +81,11 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     public T get(int index) {
         if(index > size) {
             return null;
-        } else {
-            Node travel = sentinel;
+        }
+        Node travel = sentinel.next;
+        if (index == 0) {
+            return travel.item;
+        }else {
             for (int i = 0; i < index; i++) {
                 travel = travel.next;
             }
@@ -97,6 +100,9 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     public T helper(int index, Node s, int count) {
         Node pointer = s;
+        if (index == 0) {
+            return pointer.next.item;
+        }
         while (count < index) {
             pointer = pointer.next;
             count ++;

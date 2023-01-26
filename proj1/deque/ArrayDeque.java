@@ -67,7 +67,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         items[arrayInd(0)] = null;
 
         if ((size > 16) && (items.length * .25 > size)) {
-            reducesize(4);
+            reducesize(2);
         }
         nextFirst += 1;
         size -= 1;
@@ -83,7 +83,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         items[nextLast - 1] = null;
 
         if ((size > 16) && (items.length * .25 > size)) {
-            reducesize(4);
+            reducesize(2);
         }
 
         nextLast -= 1;
@@ -142,9 +142,16 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     private void reducesize(int factor) {
-        T[] a = (T[]) new Object[items.length / factor];
-        System.arraycopy(items, 0, a, 0, size);
+        T[] a = (T[]) new Object[items.length / factor + 1];
+        int ind = 0;
+        for (int i = 0; i < size; i++) {
+            ind = arrayInd(i);
+            a[items.length / 4 + i] = items[ind];
+        }
         items = a;
+
+        nextFirst = a.length / factor - 1;
+        nextLast = nextFirst + 1 + size;
     }
     @Override
     public Iterator<T> iterator() {

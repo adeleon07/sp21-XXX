@@ -90,4 +90,40 @@ public class LinkedListDequeTest {
             assertEquals("Should have the same value,  loops through last half of the LinkedListDeque", k, (double) lld.removeLast(), 0.0);
         }
     }
+
+    @Test
+    public void iterativeLLDequeGet() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addLast(0);
+        lld.removeLast();
+        lld.addLast(2);
+
+        assertEquals(2.0 , (double) lld.get(0), 0);
+    }
+
+    @Test
+    public void recursiveLLDequeGet() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addLast(0);
+        lld.removeLast();
+        lld.addLast(2);
+
+        assertEquals(2.0 , (double) lld.getRecursive(0), 0);
+    }
+
+    @Test
+    public void lldEqualsad() {
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addLast(1);
+        lld.addLast(2);
+
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        ad.addLast(1);
+        ad.addLast(2);
+
+        System.out.println(lld.get(1));
+        System.out.println(ad.get(1));
+
+        assertTrue(lld.equals(ad));
+    }
 }

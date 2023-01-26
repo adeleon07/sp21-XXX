@@ -47,4 +47,23 @@ public class ArrayDequeTest {
         assertEquals(3, (int)TestRLDeque.removeLast());
         assertEquals(3, (int)TestRLDeque.size());
     }
+
+    @Test
+    public void largeAddandRemove() {
+        ArrayDeque<Integer> TestRLDeque = new ArrayDeque<>();
+        for (int i = 0; i < 75; i++) {
+            TestRLDeque.addFirst(i);
+        }
+        for (int j = 0; j < 75; j++) {
+            TestRLDeque.removeLast();
+        }
+        assertTrue(TestRLDeque.isEmpty());
+
+
+        for (int i = 0; i < 1000; i++) {
+            TestRLDeque.addFirst(i);
+        }
+        assertFalse(TestRLDeque.isEmpty());
+
+    }
 }
