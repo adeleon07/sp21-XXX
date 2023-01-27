@@ -66,7 +66,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         items[arrayInd(0)] = null;
 
-        if ((size > 16) && (items.length * .3 >= size)) {
+        if ((size > 32) && (items.length * .25 >= size)) {
             reducesize(2);
         }
         nextFirst += 1;
