@@ -1,6 +1,5 @@
 package deque;
 
-import java.awt.datatransfer.SystemFlavorMap;
 import java.util.Iterator;
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] items;
@@ -70,7 +69,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             reducesize(2);
         }
         nextFirst += 1;
-        if (nextFirst > items.length -1) {
+        if (nextFirst > items.length - 1) {
             nextFirst = 0;
         }
         size -= 1;
@@ -86,8 +85,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (nextLast == 0) {
             nextLast = items.length;
         }
-        T lastItem = items[nextLast-1];
-        items[nextLast-1] = null;
+        T lastItem = items[nextLast - 1];
+        items[nextLast - 1] = null;
 
         if ((size > 32) && (items.length * .25 >= size)) {
             reducesize(2);
@@ -114,7 +113,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return false;
         }
         Deque<T> ol = (Deque<T>) o;
-        if ( ol.size() != this.size()) {
+        if (ol.size() != this.size()) {
             return false;
         }
         for (int i = 0; i < ol.size(); i++) {
