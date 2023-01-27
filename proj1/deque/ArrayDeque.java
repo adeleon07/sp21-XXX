@@ -70,6 +70,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             reducesize(2);
         }
         nextFirst += 1;
+        if (nextFirst > items.length -1) {
+            nextFirst = 0;
+        }
         size -= 1;
         return firstItem;
     }
@@ -78,6 +81,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     public T removeLast() {
         if (isEmpty()) {
             return null;
+        }
+
+        if (nextLast == 0) {
+            nextLast = items.length - 1;
         }
         T lastItem = items[nextLast-1];
         items[nextLast-1] = null;
