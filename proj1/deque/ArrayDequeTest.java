@@ -119,5 +119,11 @@ public class ArrayDequeTest {
         ArrayDeque1.removeFirst();
         ArrayDeque1.removeFirst();
         ArrayDeque1.addFirst(14);
+
+        ArrayDeque<Integer> ArrayDeque2 = new ArrayDeque<>();
+        ArrayDeque2.addLast(0);
+        ArrayDeque2.addLast(1);
+        ArrayDeque2.addLast(2);
+        assertEquals(2.0, (double)ArrayDeque2.removeLast(), 0.0);
     }
 }
