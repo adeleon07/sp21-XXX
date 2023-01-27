@@ -1,6 +1,9 @@
 package deque;
 
 import org.junit.Test;
+
+import java.util.Iterator;
+
 import static org.junit.Assert.*;
 
 public class LinkedListDequeTest {
@@ -124,5 +127,19 @@ public class LinkedListDequeTest {
         System.out.println(ad.get(1));
 
         assertTrue(lld.equals(ad));
+    }
+
+    @Test
+    public void deepEquals() {
+        LinkedListDeque<Integer> a = new LinkedListDeque<>();
+        ArrayDeque<Integer> b = new ArrayDeque<>();
+
+        for (int i = 1; i <= 4; i++) {
+            a.addFirst(i);
+            b.addFirst(i);
+        }
+
+        assertTrue(a.equals(b));
+        assertTrue(a.equals(a));
     }
 }

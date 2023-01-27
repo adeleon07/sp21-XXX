@@ -65,7 +65,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         items[arrayInd(0)] = null;
 
-        if ((size > 32) && (items.length * .25 >= size)) {
+        if ((items.length > 16) && (items.length * .25 >= size)) {
             reducesize(2);
         }
         nextFirst += 1;
@@ -88,7 +88,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         T lastItem = items[nextLast - 1];
         items[nextLast - 1] = null;
 
-        if ((size > 32) && (items.length * .25 >= size)) {
+        if ((items.length > 16) && (items.length * .25 >= size)) {
             reducesize(2);
         }
 
@@ -103,7 +103,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public boolean equals(Object o) {
-        if (!(o instanceof ArrayDeque)) {
+        if (!(o instanceof Deque)) {
             return false;
         }
         if (o == this) {
