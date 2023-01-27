@@ -79,8 +79,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (isEmpty()) {
             return null;
         }
-        T lastItem = items[arrayInd(nextLast - 1)];
-        items[arrayInd(nextLast - 1)] = null;
+        T lastItem = items[nextLast-1];
+        items[nextLast-1] = null;
 
         if ((size > 32) && (items.length * .25 >= size)) {
             reducesize(2);

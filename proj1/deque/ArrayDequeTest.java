@@ -68,6 +68,18 @@ public class ArrayDequeTest {
     }
 
     @Test
+    public void resizeNoNull() {
+        ArrayDeque<Integer> TestRLDeque = new ArrayDeque<>();
+        for (int i = 0; i < 8; i++) {
+            TestRLDeque.addFirst(i);
+        }
+        assertEquals(7.0 , (double)TestRLDeque.removeFirst(), 0);
+        assertEquals(0.0 , (double)TestRLDeque.removeLast(), 0);
+
+
+
+    }
+    @Test
     public void basicget() {
         ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
         ArrayDeque.addLast(0);

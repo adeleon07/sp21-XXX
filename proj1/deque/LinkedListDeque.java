@@ -98,7 +98,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         return helper(index, sentinel, 0);
     }
 
-    public T helper(int index, Node s, int count) {
+    private T helper(int index, Node s, int count) {
         Node pointer = s.next;
         if (index == 0) {
             return pointer.item;
@@ -155,20 +155,5 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     public int size() {
         return size;
-    }
-
-    public static void main(String[] args) {
-        LinkedListDeque<Integer> newNode = new LinkedListDeque<Integer>();
-        System.out.println(newNode.isEmpty());
-        newNode.addFirst(1);
-        newNode.addFirst(2);
-        newNode.addLast(3);
-        System.out.println("Result of get(0,1,2,3): " + newNode.get(0) + newNode.get(1) + newNode.get(2) + newNode.get(3));
-        System.out.println("Result of getRecursive(0,1,2,3): " + newNode.getRecursive(0) + newNode.getRecursive(1) + newNode.getRecursive(2) + newNode.getRecursive(3));
-        System.out.println("Result of removeLast() method: " + newNode.removeLast());
-        System.out.println("Result of removeFirst() method: " + newNode.removeFirst());
-        System.out.println("Size: " + newNode.size());
-        System.out.println("Is the node empty?: " + newNode.isEmpty());
-        newNode.printDeque();
     }
 }
