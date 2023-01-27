@@ -51,10 +51,10 @@ public class ArrayDequeTest {
     @Test
     public void largeAddandRemove() {
         ArrayDeque<Integer> TestRLDeque = new ArrayDeque<>();
-        for (int i = 0; i < 75; i++) {
+        for (int i = 0; i < 200; i++) {
             TestRLDeque.addFirst(i);
         }
-        for (int j = 0; j < 75; j++) {
+        for (int j = 0; j < 200; j++) {
             TestRLDeque.removeLast();
         }
         assertTrue(TestRLDeque.isEmpty());
@@ -65,5 +65,27 @@ public class ArrayDequeTest {
         }
         assertFalse(TestRLDeque.isEmpty());
 
+    }
+
+    @Test
+    public void basicget() {
+        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
+        ArrayDeque.addLast(0);
+        ArrayDeque.get(0);
+        ArrayDeque.removeLast();
+        ArrayDeque.addFirst(6);
+        ArrayDeque.addLast(7);
+        ArrayDeque.addFirst(8);
+        ArrayDeque.removeLast();
+        ArrayDeque.removeLast();
+        ArrayDeque.addFirst(11);
+        ArrayDeque.addLast(12);
+        ArrayDeque.removeFirst();
+        ArrayDeque.addLast(14);
+        ArrayDeque.addLast(15);
+        ArrayDeque.addLast(16);
+        ArrayDeque.removeFirst();
+        ArrayDeque.addLast(18);
+        ArrayDeque.removeLast();
     }
 }

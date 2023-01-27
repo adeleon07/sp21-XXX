@@ -104,11 +104,10 @@ public class LinkedListDequeTest {
     @Test
     public void recursiveLLDequeGet() {
         LinkedListDeque<Integer> lld = new LinkedListDeque<>();
-        lld.addLast(0);
-        lld.removeLast();
-        lld.addLast(2);
-
-        assertEquals(2.0 , (double) lld.getRecursive(0), 0);
+        lld.addFirst(0);
+        assertEquals(0.0 , (double) lld.getRecursive(0), 0);
+        lld.addFirst(2);
+        assertEquals(0.0 , (double) lld.getRecursive(1), 0);
     }
 
     @Test

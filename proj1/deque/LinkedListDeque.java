@@ -99,9 +99,9 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public T helper(int index, Node s, int count) {
-        Node pointer = s;
+        Node pointer = s.next;
         if (index == 0) {
-            return pointer.next.item;
+            return pointer.item;
         }
         while (count < index) {
             pointer = pointer.next;
