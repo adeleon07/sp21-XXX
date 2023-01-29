@@ -153,15 +153,20 @@ public class ArrayDequeTest {
         assertTrue(a.equals(b));
     }
 
-    @Test
     public void deepEquals() {
         LinkedListDeque<Deque> a = new LinkedListDeque<>();
         ArrayDeque<Deque> b = new ArrayDeque<>();
         LinkedListDeque<Integer> c = new LinkedListDeque<>();
+        LinkedListDeque<Integer> d = new LinkedListDeque<>();
 
-        c.addFirst(5);
+        c.addLast(1);
+        d.addFirst(1);
+
         a.addFirst(c);
-        b.addFirst(c);
+        b.addFirst(d);
+
+        System.out.println("a: " + a.get(0));
+        System.out.println("b: " + b.get(0));
 
         assertTrue(a.equals(b));
         assertTrue(a.equals(a));

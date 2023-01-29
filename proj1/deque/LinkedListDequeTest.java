@@ -116,11 +116,11 @@ public class LinkedListDequeTest {
     @Test
     public void lldEqualsad() {
         LinkedListDeque<Integer> lld = new LinkedListDeque<>();
-        lld.addLast(1);
+        lld.addLast(2);
         lld.addLast(2);
 
         ArrayDeque<Integer> ad = new ArrayDeque<>();
-        ad.addLast(1);
+        ad.addLast(2);
         ad.addLast(2);
 
         System.out.println(lld.get(1));
@@ -131,13 +131,19 @@ public class LinkedListDequeTest {
 
     @Test
     public void deepEquals() {
-        LinkedListDeque<Integer> a = new LinkedListDeque<>();
-        ArrayDeque<Integer> b = new ArrayDeque<>();
+        LinkedListDeque<Deque> a = new LinkedListDeque<>();
+        ArrayDeque<Deque> b = new ArrayDeque<>();
+        LinkedListDeque<Integer> c = new LinkedListDeque<>();
+        LinkedListDeque<Integer> d = new LinkedListDeque<>();
 
-        for (int i = 1; i <= 4; i++) {
-            a.addFirst(i);
-            b.addFirst(i);
-        }
+        c.addLast(1);
+        d.addFirst(1);
+
+        a.addFirst(c);
+        b.addFirst(d);
+
+        System.out.println("a: " + a.get(0));
+        System.out.println("b: " + b.get(0));
 
         assertTrue(a.equals(b));
         assertTrue(a.equals(a));
