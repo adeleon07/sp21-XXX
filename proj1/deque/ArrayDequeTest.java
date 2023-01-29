@@ -128,6 +128,19 @@ public class ArrayDequeTest {
     }
 
     @Test
+    public void randomGet() {
+        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
+        for (int i = 0; i < 16; i++) {
+            ArrayDeque.addLast(i);
+        }
+
+
+        ArrayDeque.get(16);
+
+
+    }
+
+    @Test
     public void equalsTest() {
         ArrayDeque<Integer> a = new ArrayDeque<>();
         LinkedListDeque<Integer> b = new LinkedListDeque<>();
@@ -138,5 +151,19 @@ public class ArrayDequeTest {
         }
 
         assertTrue(a.equals(b));
+    }
+
+    @Test
+    public void deepEquals() {
+        LinkedListDeque<Deque> a = new LinkedListDeque<>();
+        ArrayDeque<Deque> b = new ArrayDeque<>();
+        LinkedListDeque<Integer> c = new LinkedListDeque<>();
+
+        c.addFirst(5);
+        a.addFirst(c);
+        b.addFirst(c);
+
+        assertTrue(a.equals(b));
+        assertTrue(a.equals(a));
     }
 }
