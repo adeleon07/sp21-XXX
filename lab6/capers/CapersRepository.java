@@ -1,13 +1,16 @@
 package capers;
 
 import java.io.File;
+import java.io.IOException;
+
+import static capers.Dog.DOG_FOLDER;
 import static capers.Utils.*;
 
 /** A repository for Capers 
- * @author TODO
+ * @author Andre
  * The structure of a Capers Repository is as follows:
  *
- * .capers/ -- top level folder for all persistent data in your lab12 folder
+ * .capers/ -- top level folder for all persistent data in your lab6 folder
  *    - dogs/ -- folder containing all of the persistent data for dogs
  *    - story -- file containing the current story
  *
@@ -18,8 +21,10 @@ public class CapersRepository {
     static final File CWD = new File(System.getProperty("user.dir"));
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = null; // TODO Hint: look at the `join`
-                                            //      function in Utils
+    static final File CAPERS_FOLDER = new File(".capers");
+
+    static final File STORY_FILE = Utils.join(CAPERS_FOLDER, "story.txt");
+
 
     /**
      * Does required filesystem operations to allow for persistence.
@@ -31,7 +36,13 @@ public class CapersRepository {
      *    - story -- file containing the current story
      */
     public static void setupPersistence() {
-        // TODO
+        CAPERS_FOLDER.mkdir();
+        DOG_FOLDER.mkdir();
+        try {
+            STORY_FILE.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
