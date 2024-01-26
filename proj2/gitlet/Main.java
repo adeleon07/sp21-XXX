@@ -1,6 +1,6 @@
 package gitlet;
 
-import static gitlet.Utils.*;
+
 
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author TODO
@@ -13,10 +13,10 @@ public class Main {
 
     public static void main(String[] args) {
         // TODO: what if args is empty? - complete
-        validatedNumCommand(args);
+        //validatedNumCommand(args);
 
-        String firstArg = args[0];
-        switch(firstArg) {
+        String firstArg = "init"; //args[0];
+        switch("init") {
             case "init":
                 // TODO: handle the `init` command
                 //Verify if there is a Gitlet version-control system in CWD,
@@ -34,12 +34,13 @@ public class Main {
 
     private static void validatedNumCommand(String[] args) {
         if (args.length == 0) {
-            Utils.error("Please enter a command.");
+            System.out.println("Please enter a command.");
+            System.exit(0);
         }
     }
 
 
-    private static void setupPersistence() {
+    //private static void setupPersistence() {
     //TODO-AD: Setup a new gitlit repo
-    }
+    //}
 }

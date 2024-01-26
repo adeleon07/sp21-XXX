@@ -38,12 +38,11 @@ public class Commit implements Serializable {
     /* TODO: fill in the rest of this class. */
 
     public void writeCommit(){
-        String id = Utils.sha1(this); //to serial or not serialze object
+        String id = Utils.sha1(serialize(this)); //to serial or not serialze object
         File commitPath = join(Repository.COMMITS_DIR, id);
         this.uid = id;
         Utils.writeObject(commitPath, this); //this or id?
 
-        /
 
     }
 }

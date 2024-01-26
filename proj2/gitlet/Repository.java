@@ -62,7 +62,7 @@ public class Repository {
 
 
         // TODO - AD: create master branch
-        Branch branch = new Branch("mater", initialCommit.getUid());
+        //Branch branch = new Branch("master", initialCommit.getUid());
         //write the branch? what does this mean.
 
     }
