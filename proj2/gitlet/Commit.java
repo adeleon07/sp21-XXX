@@ -8,6 +8,9 @@ import java.util.Date;
 import java.io.File;
 import static gitlet.Utils.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /** Represents a gitlet commit object.
  *  TODO: It's a good idea to give a description here of what else this Class
  *  does at a high level.
@@ -28,8 +31,13 @@ public class Commit implements Serializable {
     private String message;
     private Date timestamp;
 
+    private HashMap<String, Blob> commitBlobs;
+
+
+
     /** Initial commit constructor. Distinguished by the inputs*/
     public Commit(){
+        this.commitBlobs = new HashMap<String, Blob>();
         this.message = "initial commit";
         this.timestamp = new Date(0);
 
@@ -43,6 +51,17 @@ public class Commit implements Serializable {
         this.uid = id;
         Utils.writeObject(commitPath, this); //this or id?
 
+    }
 
+    public String getUid(){
+        return this.uid;
+    }
+
+    public boolean containsBlob(File fileName) {
+        return commitBlobs.containsKey(fileName);
+    }
+
+    public void addBlob (Blob blob) {
+        // TODO - AD?
     }
 }

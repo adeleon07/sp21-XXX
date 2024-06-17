@@ -1,6 +1,7 @@
 package gitlet;
 
 
+import java.io.IOException;
 
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author TODO
@@ -12,21 +13,25 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        // TODO: what if args is empty? - complete
-        //validatedNumCommand(args);
+        //TODO: what if args is empty? - complete
+        validatedNumCommand(args);
 
-        String firstArg = "init"; //args[0];
-        switch("init") {
+        String firstArg = args[0];
+        switch(firstArg) {
+
+        /* test line */ //switch("init") {
             case "init":
-                // TODO: handle the `init` command
-                //Verify if there is a Gitlet version-control system in CWD,
-                // this is done in repositoty
+                // TODO: handle the `init` command - complete
                 Repository.init();
                // setupPersistence(); or do I defer to making persistence in the init command? I might do that instead.
-                //Create
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
+                try {
+                    Repository.add(args[1]);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             // TODO: FILL THE REST IN
         }
@@ -41,6 +46,6 @@ public class Main {
 
 
     //private static void setupPersistence() {
-    //TODO-AD: Setup a new gitlit repo
+    //TODO-AD: Setup a new gitlit repo?
     //}
 }
