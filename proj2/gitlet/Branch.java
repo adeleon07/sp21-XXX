@@ -21,4 +21,11 @@ public class Branch implements Serializable {
         return this.branchName;
     }
 
+    public static Branch load(File branch) {
+        return Utils.readObject(branch, Branch.class);
+    }
+
+    public Commit getHEAD() {
+        return this.head;
+    }
 }

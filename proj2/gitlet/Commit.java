@@ -9,6 +9,7 @@ import java.io.File;
 import static gitlet.Utils.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /** Represents a gitlet commit object.
@@ -25,14 +26,28 @@ public class Commit implements Serializable {
      * comment above them describing what that variable represents and how that
      * variable is used. We've provided one example for `message`.
      */
-    private String[] parents;
+
+    /**
+     * the SHA1s of a commit node's parent nodes.
+     */
+    private String[] parents = new String[2];
+
+    /**
+     * the SHA1 of a commit node.
+     */
     private String uid;
     /** The message of this Commit. */
     private String message;
     private Date timestamp;
 
-    private HashMap<String, Blob> commitBlobs;
+    /**
+     *  The snapshot of a commit node, which is stored
+     *  as a mapping of the SHA1 of a staged file
+     *  and the SHA 1 of a blob
+     */
+    private Map<String, String> snapshot;
 
+    private HashSet<String> deletedSnaphot = new HashSet<>;
 
 
     /** Initial commit constructor. Distinguished by the inputs*/
@@ -64,4 +79,5 @@ public class Commit implements Serializable {
     public void addBlob (Blob blob) {
         // TODO - AD?
     }
+
 }

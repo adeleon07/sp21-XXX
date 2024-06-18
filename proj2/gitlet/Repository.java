@@ -48,7 +48,7 @@ public class Repository {
     /** HashMap to keep track of the files in the staging area */
     //public static Map<String, String> stageAdd = new HashMap<>();
     //public static Map<String, String> stageRmv = new HashMap<>();
-    public static Map<String, String> staging = new HashMap<>();
+    public static Staging stagingArea = new Staging();
 
     /* TODO: fill in the rest of this class. */
 
@@ -77,6 +77,11 @@ public class Repository {
         Head.setBranchHEAD("master", initialCommit);
         Head.setGlobalHEAD("master", initialCommit);
 
+        /**
+         * Generates the first instance of the staging area
+         * with an empty add and removal area.
+         */
+        stagingArea.save();
     }
 
     public static void add(String fileName) throws IOException {
@@ -87,22 +92,27 @@ public class Repository {
             System.out.print("File does not exist.");
             System.exit(0);
         }
-        // TODO - AD, validate number of args?
-        // TODO - AD, create a method to save to the stage
-        // make sure there is a stage to save to, directory in this case - done
-        // stage should be some data structure, here we'll make it a hash map - done (explain why in docs)
-        // TODO - AD, create a way to save a blob to staging
-        // create a new blob object - done
-        // blob needs to be hashed with SHA1 - done with blob obj
-        // Save to staging area - partially done
-        //      need to implement a save method for staging
-        Blob blob = new Blob(fileName);
-        blob.save();
-        File index = Utils.join(STAGE_DIR, "index");
-        Utils.writeObject(index, STAGE_DIR);
-        System.out.print("Added " + fileName + " to the staging area");
+
+        if (isSameVersionAsLastCommit(fileName)) {
+            if (stagingArea.containsFileForRemoval(fileName)) {
+                stagingArea.removeFromStagedForRemoval(fileName);
+            }
+
+            stagingArea.save();
+            return
         }
 
+        Blob blob = new Blob(fileName);
+        blob.save();
+        stage(fileName, blob);
+
+        }
+
+        private static void stage(String fileName, Blob blob) {
+            stagingArea = stagingArea.load();
+            stagingArea.add(fileName, blob.getBlobSHA1());
+            stagingArea.save();
+        }
         // TODO - AD, update head and master branches. maybe do a linked list later?
         //Read contents of file from working directory
         //TODO - AD
@@ -149,12 +159,11 @@ public class Repository {
         return branch.getName();
     }
     public static boolean isSameVersionAsLastCommit(String currFileName) {
-        //Get file
-        //Get Commit
-        //
+        String CWD = System.getProperty("user.dir");
         File currentFile = new File(CWD, currFileName);
-        return true;
-        //
+
+        Commit currCommit = Head.getGlobalHEAD();
+        String blobSHA1 = currCommit.getSnapshot().get(currFileName);
     }
     private static void addToStage(String fileToAdd) {
         Blob blob = new Blob(fileToAdd);

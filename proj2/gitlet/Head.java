@@ -23,4 +23,9 @@ public class Head {
         File branchFile = Utils.join(Repository.BRANCHES_DIR, branchName);
         Utils.writeObject(branchFile, branch);
     }
+
+    public static Commit getGlobalHEAD(){
+        File HEAD = Utils.join(Repository.GITLET_DIR, "HEAD");
+        return Branch.load(HEAD).getHEAD();
+    }
 }

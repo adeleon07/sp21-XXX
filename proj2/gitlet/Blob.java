@@ -23,6 +23,8 @@ public class Blob implements Serializable {
         this.fileContent = fileContent;
         this.blobSHA1 = blobSHA1;
     }
+
+    /** Save a blob as a byte array. Use SHA1 as its file name. */
     public void save() throws IOException {
         Blob blob = new Blob(this.fileName, this.fileContent, this.blobSHA1);
         File blobFile = Utils.join(Repository.BLOB_DIR, this.getBlobSHA1());
@@ -32,6 +34,13 @@ public class Blob implements Serializable {
             throw new RuntimeException(e);
         }
         Utils.writeObject(blobFile, blob);
+    }
+
+    /** Return a blob object from the byte array
+     * @param 'blob' the blob
+     */
+    public static Blob load(File blob) {
+        return Utils.readObject(blob, Blob.class);
     }
 
     public String getBlobSHA1(){
