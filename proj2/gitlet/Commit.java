@@ -2,15 +2,12 @@ package gitlet;
 
 // TODO: any imports you need here
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 import java.io.File;
 import static gitlet.Utils.*;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /** Represents a gitlet commit object.
  *  TODO: It's a good idea to give a description here of what else this Class
@@ -35,7 +32,7 @@ public class Commit implements Serializable {
     /**
      * the SHA1 of a commit node.
      */
-    private String uid;
+    private String sha1;
     /** The message of this Commit. */
     private String message;
     private Date timestamp;
@@ -47,19 +44,45 @@ public class Commit implements Serializable {
      */
     private Map<String, String> snapshot;
 
-    private HashSet<String> deletedSnaphot = new HashSet<>;
+    private HashSet<String> deletedSnaphot = new HashSet<>();
 
+    private boolean init = false;
 
     /** Initial commit constructor. Distinguished by the inputs*/
-    public Commit(){
-        this.commitBlobs = new HashMap<String, Blob>();
-        this.message = "initial commit";
-        this.timestamp = new Date(0);
+    public Commit(String msg, String parent, boolean initial, Map<String, String> map){
+        List<String> list = new ArrayList<>(map.values());
 
+        //create unique sha
+        String blobFileNames = "";
+        for (String blobFileName : list) {
+            blobFileNames += blobFileName;
+        }
+
+        this.message = msg;
+        this.parents[0] = parent;
+        this.sha1 = Utils.sha1("COMMIT" + message + blobFileNames);
+        this.snapshot = map;
+        this.init = initial;
+        if (msg == "initial commit") {
+            this.timestamp = new Date(0);
+        } else {
+            this.timestamp = new Date();
+        }
+
+
+    }
+    /** Used for init command only.*/
+    public Commit(String msg, Map<String, String> map) {
+        this.message = msg;
+        this.snapshot = map;
+        this.parents[0] = Repository.INIT_PARENT_SHA1;
+        this.sha1 = Utils.sha1("COMMIT" + message);
+        this.timestamp = new Date(0);
     }
 
     /* TODO: fill in the rest of this class. */
 
+    /**
     public void writeCommit(){
         String id = Utils.sha1(serialize(this)); //to serial or not serialze object
         File commitPath = join(Repository.COMMITS_DIR, id);
@@ -67,15 +90,33 @@ public class Commit implements Serializable {
         Utils.writeObject(commitPath, this); //this or id?
 
     }
-
-    public String getUid(){
-        return this.uid;
+     */
+    public void saveInit() throws IOException {
+        Commit commit = new Commit(this.message, this.parents[0], true, this.snapshot);
+        File commitFile = Utils.join(Repository.COMMITS_DIR, this.sha1);
+        File commitLogs = Utils.join(Repository.LOGS_DIR, this.sha1);
+        commitFile.createNewFile();
+        commitLogs.createNewFile();
+        Utils.writeObject(commitFile, commit);
+        Utils.writeObject(commitLogs, commit);
     }
 
+    public String getSHA(){
+        return this.sha1;
+    }
+
+    /**
+     * Return the snapshot hashmap of a commit node.
+     */
+    public Map<String, String> getSnapshot() {
+        return this.snapshot;
+    }
+
+    /**
     public boolean containsBlob(File fileName) {
         return commitBlobs.containsKey(fileName);
     }
-
+    */
     public void addBlob (Blob blob) {
         // TODO - AD?
     }

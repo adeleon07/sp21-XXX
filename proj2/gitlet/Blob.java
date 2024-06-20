@@ -47,4 +47,8 @@ public class Blob implements Serializable {
         return this.blobSHA1;
     }
 
+    public byte[] getFileContent() {
+        return this.fileContent;
+    }
+
 }

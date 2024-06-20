@@ -12,14 +12,14 @@ public class Main {
      *  <COMMAND> <OPERAND1> <OPERAND2> ... 
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //TODO: what if args is empty? - complete
-        validatedNumCommand(args);
+        //validatedNumCommand(args);
 
-        String firstArg = args[0];
-        switch(firstArg) {
+        //String firstArg = args[0];
+        // switch(firstArg) {
 
-        /* test line */ //switch("init") {
+        /* test line */ switch("init") {
             case "init":
                 // TODO: handle the `init` command - complete
                 Repository.init();

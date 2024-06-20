@@ -1,7 +1,5 @@
 package gitlet;
 
-import org.apache.commons.collections.bidimap.TreeBidiMap;
-
 import java.io.File;
 import java.util.Map;
 import java.util.HashSet;
@@ -34,5 +32,13 @@ public class Staging implements Serializable {
 
     public void add(String fileName, String blobSHA1) {
         this.stagedForAddition.put(fileName, blobSHA1);
+    }
+
+    public boolean containsFileForRemoval(String fileName) {
+        return this.stagedForRemoval.contains(fileName);
+    }
+
+    public void removeFromStagedForRemoval(String fileName) {
+        this.stagedForRemoval.remove(fileName);
     }
 }

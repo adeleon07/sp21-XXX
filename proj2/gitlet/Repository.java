@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,16 +44,17 @@ public class Repository {
     public static final File COMMITS_DIR = join(GITLET_DIR, "commits");
     /** Directory for storing different branches. */
     public static final File BRANCHES_DIR = join(GITLET_DIR, "branches");
-
+    public static final File LOGS_DIR = join(GITLET_DIR, "logs");
 
     /** HashMap to keep track of the files in the staging area */
     //public static Map<String, String> stageAdd = new HashMap<>();
     //public static Map<String, String> stageRmv = new HashMap<>();
     public static Staging stagingArea = new Staging();
 
-    /* TODO: fill in the rest of this class. */
+    static final String SENTINEL_COMMIT_ID = "6cf73ef132f3f89a94f4c73ec879aa79ba529e86";
+    static final String INIT_PARENT_SHA1 = "0000000000000000000000000000000000000000";
 
-    public static void init() {
+    public static void init() throws IOException {
 
         if (GITLET_DIR.exists()) {
             System.out.println("A Gitlet version-control system already exists " +
@@ -65,11 +67,17 @@ public class Repository {
         BLOB_DIR.mkdir();
         STAGE_DIR.mkdir();
         COMMITS_DIR.mkdir();
+        LOGS_DIR.mkdir();
         BRANCHES_DIR.mkdir();
 
-        //create the initial commit with the message and time and commits it.
-        Commit initialCommit = new Commit();
-        initialCommit.writeCommit();
+        Map<String, String> sentinelMap = new HashMap<>();
+        Commit sentinel = new Commit("sentinel", sentinelMap);
+        Commit initialCommit = new Commit("initial commit", sentinel.getSHA(), true, new HashMap<>());
+        sentinel.saveInit();
+        initialCommit.saveInit();
+        // OBSELETE create the initial commit with the message and time and commits it.
+        //Commit initialCommit = new Commit();
+        //initialCommit.writeCommit();
 
 
         /** Set the global head to the initial commit and create a master branch pointing
@@ -99,76 +107,48 @@ public class Repository {
             }
 
             stagingArea.save();
-            return
+            return;
         }
 
         Blob blob = new Blob(fileName);
         blob.save();
         stage(fileName, blob);
 
-        }
+    }
 
         private static void stage(String fileName, Blob blob) {
             stagingArea = stagingArea.load();
             stagingArea.add(fileName, blob.getBlobSHA1());
             stagingArea.save();
         }
-        // TODO - AD, update head and master branches. maybe do a linked list later?
-        //Read contents of file from working directory
-        //TODO - AD
-        // TEMP COMMENT String contents = Utils.readContentsAsString(fileToAdd);
-        // TEMP COMMENT String version = sha1(contents);
 
-        //Loading StageAdd hashmap (why this?) 5/30 commented out
-        //stageAdd = readObject(STAGE_ADD_FILE, HashMap.class);
-        //stageRmv = readObject(STAGE_REMOVE_FILE, HashMap.class);
+        public static boolean isSameVersionAsLastCommit(String currFileName) {
+            String CWD = System.getProperty("user.dir");
+            File currentFile = new File(CWD, currFileName);
 
-        //Compares CWD version to the latest commit version
-        // TEMP COMMENT String head = readHeadCommitUID();
-       // Commit currentCommit = fromFile(head); 5/30/ commented out
+            Commit currCommit = Head.getGlobalHEAD();
+            String blobSHA1 = currCommit.getSnapshot().get(currFileName);
 
-        //Determine if the blob is unique compared to any of the current commit's blobs
-       /** TEMP COMMENT
-        if (isSameVersionAsLastCommit(fileName)) {
-            //remove file
-            return;
-        }
-        */
+            if (blobSHA1 == null) {
+                return false;
+            }
 
-        //Commit currentCommit = Utils.readObject(CURRENT_COMMIT_FILE)
-        /*
+            File blobOfPrevVersion = Utils.join(BLOB_DIR, blobSHA1);
 
-        if (head.containsBlob(fileToAdd)) {
-            System.exit(0);
-        }
-        //if yes, add to staging,
-        addToStage(fileName);
-        */
-    // TEMP COMMENT }
-
-    public static void saveStage() {
-        for (Map.Entry<String, String> entry : staging.entrySet()) {
-            String fileName = entry.getKey();
-            String fileHash = entry.getValue();
+            return hasSameContent(currentFile, blobOfPrevVersion);
         }
 
-        // TEMP COMMENT File stagedFile = new File(staging, fileHash);
-    }
-    public static String readHeadCommitUID(){
-        Branch branch = Utils.readObject(HEAD_FILE, Branch.class);
-        return branch.getName();
-    }
-    public static boolean isSameVersionAsLastCommit(String currFileName) {
-        String CWD = System.getProperty("user.dir");
-        File currentFile = new File(CWD, currFileName);
+        /**
+         * Compares the byte array of the file in CWD and the byte array
+         * saved in the last commit/blob.
+         * @param 'currVersion' file in CWD
+         * @param 'blobOfPrevVersion' the blob of the same file saved in current commit.
+         * */
+        public static boolean hasSameContent(File currVersion, File blobOfPrevVersion) {
+            Blob blob = Blob.load(blobOfPrevVersion);
+            byte[] versionInCurrCommit = blob.getFileContent();
+            byte[] versionInCWD = Utils.readContents(currVersion);
+            return Arrays.equals(versionInCurrCommit, versionInCWD);
 
-        Commit currCommit = Head.getGlobalHEAD();
-        String blobSHA1 = currCommit.getSnapshot().get(currFileName);
-    }
-    private static void addToStage(String fileToAdd) {
-        Blob blob = new Blob(fileToAdd);
-        String blobId = Utils.sha1(serialize(blob));
-        File addPath = join(Repository.STAGE_DIR, blobId);
-        //if current working version == file to add remove from staging
-    }
+        }
 }
